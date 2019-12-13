@@ -16,8 +16,7 @@ class LoadMore extends React.Component {
     render() {
         return (
             <div>
-                <button
-                onClick={this.onClickHandler}>Load More</button>
+                <button onClick={this.onClickHandler}>Load More</button>
             </div>
         );
     }

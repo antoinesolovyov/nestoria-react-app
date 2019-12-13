@@ -12,17 +12,22 @@ class App extends React.Component {
         page: 1
     };
 
+    request = async (place, page) => {
+        const url = `https://api.nestoria.co.uk/api?page=${page}&encoding=json&action=search_listings&place_name=${place}`;
+
+        const response = await fetch(url);
+        const json = await response.json();
+
+        return json;
+    };
+
     searchCityHandler = async ({ place }) => {
         this.setState({
             cities: [],
             page: 1
         });
 
-        const url = `https://api.nestoria.co.uk/api?page=${this.state.page}&encoding=json&action=search_listings&place_name=${place}`;
-
-        const response = await fetch(url);
-        const json = await response.json();
-
+        const json = await this.request(place, this.state.page);
         const uuidv1 = require("uuid/v1");
 
         json.response.listings.map(city => (city.id = uuidv1()));
@@ -33,18 +38,12 @@ class App extends React.Component {
             cities: nextCities,
             place
         });
-
-        console.log(...json.response.listings);
     };
 
-    loadMoreHandler = async (page) => {
-        this.setState({page});
-        
-        const url = `https://api.nestoria.co.uk/api?page=${page}&encoding=json&action=search_listings&place_name=${this.state.place}`;
+    loadMoreHandler = async page => {
+        this.setState({ page });
 
-        const response = await fetch(url);
-        const json = await response.json();
-
+        const json = await this.request(this.state.place, page);
         const uuidv1 = require("uuid/v1");
 
         json.response.listings.map(city => (city.id = uuidv1()));
@@ -54,15 +53,16 @@ class App extends React.Component {
         this.setState({
             cities: nextCities
         });
-
-        console.log(...json.response.listings);
-    }
+    };
 
     render() {
         return (
             <>
                 <Header onSearchCity={this.searchCityHandler} />
-                <Article cities={this.state.cities} onLoadMoreClick={this.loadMoreHandler}/>
+                <Article
+                    cities={this.state.cities}
+                    onLoadMoreClick={this.loadMoreHandler}
+                />
                 <Footer />
             </>
         );

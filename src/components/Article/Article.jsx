@@ -10,7 +10,7 @@ class Article extends React.Component {
             <article>
                 <h3>Найденные города</h3>
                 <List cities={this.props.cities} />
-                <LoadMore onLoadMoreClick={this.props.onLoadMoreClick}/>
+                <LoadMore onLoadMoreClick={this.props.onLoadMoreClick} />
             </article>
         );
     }
