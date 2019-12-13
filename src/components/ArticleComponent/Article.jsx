@@ -10,7 +10,12 @@ const Article = props => (
         <h3>Найденные города</h3>
         <List cities={props.cities} />
         <LoadMore onLoadMoreClick={props.onLoadMoreClick} />
-        <Pagination />
+        
+        <Pagination
+            page={props.page}
+            total={props.total}
+            onPaginationClick={props.onPaginationClick}
+        />
     </article>
 );
 

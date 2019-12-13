@@ -3,14 +3,15 @@ import uuid from "uuid";
 
 import "./App.css";
 import Header from "./components/HeaderComponent/Header";
-import Article from "./components/Article/Article";
+import Article from "./components/ArticleComponent/Article";
 import Footer from "./components/FooterComponent/Footer";
 
 class App extends React.Component {
     state = {
         place: "",
         cities: [],
-        page: 1
+        page: 1,
+        total: 1
     };
 
     request = async (place, page) => {
@@ -27,10 +28,13 @@ class App extends React.Component {
 
         json.response.listings.map(city => (city.id = uuid.v1()));
 
+        console.log(json.response.total_pages);
+
         this.setState({
             cities: [...json.response.listings],
             place,
-            page: 1
+            page: 1,
+            total: json.response.total_pages
         });
     };
 
@@ -45,13 +49,27 @@ class App extends React.Component {
         });
     };
 
+    paginationHandler = async page => {
+        const json = await this.request(this.state.place, page);
+
+        json.response.listings.map(city => (city.id = uuid.v1()));
+
+        this.setState({
+            cities: [...json.response.listings],
+            page
+        });
+    };
+
     render() {
         return (
             <>
                 <Header onSearchCity={this.searchCityHandler} />
                 <Article
+                    page={this.state.page}
+                    total={this.state.total}
                     cities={this.state.cities}
                     onLoadMoreClick={this.loadMoreHandler}
+                    onPaginationClick={this.paginationHandler}
                 />
                 <Footer />
             </>

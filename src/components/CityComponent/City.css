@@ -1,6 +1,5 @@
 .city {
     display: flex;
-
     height: 128px;
 }
 
@@ -11,14 +10,12 @@ img {
 
 .city__image {
     float: left;
-
     width: 128px;
     height: 128px;
 }
 
 .city__description {
     float: left;
-
     margin: 0px 16px;
     width: 480px;
 }
@@ -28,15 +25,13 @@ img {
     width: 48px;
     height: 128px;
     background: red;
-
     border: none;
     outline: none;
 }
 
-p { 
+p {
     padding: 0px;
     margin: 8px 0px;
-
     font-family: Roboto;
     font-size: 16px;
     line-height: 24px;
