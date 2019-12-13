@@ -5,8 +5,6 @@ import "./Pagination.css";
 class Pagination extends React.Component {
     onClickHandler = event => {
         this.props.onPaginationClick(event.target.id);
-
-        this.setState({ page: event.target.id });
     };
 
     pagination = (left, right) => {
@@ -14,7 +12,11 @@ class Pagination extends React.Component {
 
         for (let i = left; i <= right; i++) {
             list.push(
-                <li key={i} id={i} onClick={this.onClickHandler}>
+                <li
+                key={i}
+                id={i}
+                className={this.props.page == i ? "red" : "white"}
+                onClick={this.onClickHandler}>
                     {i}
                 </li>
             );
@@ -29,7 +31,7 @@ class Pagination extends React.Component {
 
         if (total < 5) {
             return <ul>{this.pagination(1, total)}</ul>;
-        } else if (total >= 5 && page < 3) {
+        } else if (total >= 5 && page <= 3) {
             return <ul>{this.pagination(1, 5)}</ul>;
         } else if (page > 3 && page < total - 2) {
             return <ul>{this.pagination(+page - 2, +page + 2)}</ul>;
