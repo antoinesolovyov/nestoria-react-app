@@ -1,4 +1,5 @@
 import React from "react";
+
 import "./LoadMore.css";
 
 class LoadMore extends React.Component {

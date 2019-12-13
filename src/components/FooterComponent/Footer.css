@@ -1,0 +1,12 @@
+footer {
+    display: flex;
+    align-items: center;
+    height: 96px;
+    background: rebeccapurple;
+}
+
+footer p {
+    width: 100%;
+    text-align: center;
+    color: white;
+}
