@@ -1,0 +1,39 @@
+.city {
+    display: flex;
+
+    height: 128px;
+}
+
+img {
+    float: left;
+
+    width: 128px;
+    height: 128px;
+}
+
+.city__image {
+
+}
+
+.city__description {
+    float: left;
+
+    margin: 0px 16px;
+    width: 480px;
+}
+
+.city__like {
+    float: left;
+    width: 48px;
+    height: 128px;
+    background: red;
+}
+
+p { 
+    padding: 0px;
+    margin: 8px 0px;
+
+    font-family: Roboto;
+    font-size: 16px;
+    line-height: 24px;
+}
