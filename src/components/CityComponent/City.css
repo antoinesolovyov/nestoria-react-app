@@ -5,14 +5,15 @@
 }
 
 img {
-    float: left;
-
     width: 128px;
     height: 128px;
 }
 
 .city__image {
+    float: left;
 
+    width: 128px;
+    height: 128px;
 }
 
 .city__description {
@@ -27,6 +28,9 @@ img {
     width: 48px;
     height: 128px;
     background: red;
+
+    border: none;
+    outline: none;
 }
 
 p { 

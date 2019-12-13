@@ -1,4 +1,9 @@
+html {
+    padding: 0px;
+    margin: 0px;
+}
+
 body {
-    display: flex;
-    justify-content: center;
+    padding: 0px;
+    margin: 0px;
 }

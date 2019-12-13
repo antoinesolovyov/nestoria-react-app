@@ -11,11 +11,15 @@ class City extends React.Component {
                     <img src={img_url} alt="" />
                 </div>
                 <div className="city__description">
-                    <p><b>{title}</b></p>
+                    <p>
+                        <b>{title}</b>
+                    </p>
                     <p>{summary}</p>
-                    <p><b>{price_formatted}</b></p>
+                    <p>
+                        <b>{price_formatted}</b>
+                    </p>
                 </div>
-                <div className="city__like"></div>
+                <button className="city__like">♥</button>
             </div>
         );
     }

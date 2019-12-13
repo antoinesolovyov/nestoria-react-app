@@ -24,12 +24,15 @@ class Header extends React.Component {
         return (
             <header>
                 <form onSubmit={this.onSubmitHandler}>
+                    <button className="button__search">Search</button>
                     <input
+                        className="input__search"
                         type="text"
                         value={this.state.place}
                         onChange={this.onChangeHandler}
+                        placeholder="London"
                     />
-                    <button>Serach</button>
+                    <button className="button__like">♥</button>
                 </form>
             </header>
         );
