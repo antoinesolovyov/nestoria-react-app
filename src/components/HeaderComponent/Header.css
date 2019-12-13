@@ -1,0 +1,43 @@
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 96px;
+    background: rebeccapurple;
+}
+
+form {
+    padding: 0px;
+    margin: 0px;
+    border: 1px solid black;
+}
+
+.button__search {
+    width: 128px;
+    height: 48px;
+    border: 1px solid black;
+    outline: none;
+}
+
+.input__search {
+    width: 480px;
+    height: 46px;
+    padding: 0px 16px;
+    margin: 0px;
+    outline: 0px;
+    border: 2px solid black;
+    border: none;
+    outline: none;
+}
+
+.button__like {
+    width: 48px;
+    height: 48px;
+    border: 1px solid black;
+    outline: none;
+}
+
+.button__like:hover {
+    background: red;
+}
