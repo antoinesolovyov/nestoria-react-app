@@ -3,17 +3,15 @@ import "./Article.css";
 
 import List from "../ListComponent/List";
 import LoadMore from "../LoadMoreComponent/LoadMore";
+import Pagination from "../PaginationComponent/Pagination";
 
-class Article extends React.Component {
-    render() {
-        return (
-            <article>
-                <h3>Найденные города</h3>
-                <List cities={this.props.cities} />
-                <LoadMore onLoadMoreClick={this.props.onLoadMoreClick} />
-            </article>
-        );
-    }
-}
+const Article = props => (
+    <article>
+        <h3>Найденные города</h3>
+        <List cities={props.cities} />
+        <LoadMore onLoadMoreClick={props.onLoadMoreClick} />
+        <Pagination />
+    </article>
+);
 
 export default Article;
