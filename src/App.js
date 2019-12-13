@@ -22,7 +22,7 @@ class App extends React.Component {
         return json;
     };
 
-    searchCityHandler = async ({ place }) => {
+    searchCityHandler = async place => {
         const json = await this.request(place, 1);
 
         json.response.listings.map(city => (city.id = uuid.v1()));
