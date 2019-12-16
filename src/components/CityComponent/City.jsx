@@ -9,7 +9,7 @@ class City extends React.Component {
         return (
             <div className="city">
                 <div className="city__image">
-                    <img src={img_url} alt="" />
+                    <img src={img_url} alt={title} />
                 </div>
                 <div className="city__description">
                     <p>
