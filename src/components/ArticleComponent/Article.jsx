@@ -9,20 +9,16 @@ const Article = props => (
     <article>
         <h3>Найденные города</h3>
         <List cities={props.cities} onLikeClick={props.onLikeClick} />
-        {props.cities.length ? (
+        {!!props.cities.length && (
             <LoadMore onLoadMoreClick={props.onLoadMoreClick} />
-        ) : (
-            ""
         )}
 
-        {props.cities.length ? (
+        {!!props.cities.length && (
             <Pagination
                 page={props.page}
                 total={props.total}
                 onPaginationClick={props.onPaginationClick}
             />
-        ) : (
-            ""
         )}
     </article>
 );

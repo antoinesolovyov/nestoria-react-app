@@ -10,7 +10,11 @@ class Favorites extends React.Component {
     favoritesClickHandler = () => {
         this.props.onFavoritesClick(!this.state.favoritesIsClicked);
 
-        this.setState({ favoritesIsClicked: !this.state.favoritesIsClicked });
+        this.setState(state => {
+            return {
+                favoritesIsClicked: !state.favoritesIsClicked
+            };
+        });
     };
 
     render() {

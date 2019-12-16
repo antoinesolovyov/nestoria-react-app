@@ -7,7 +7,9 @@ const Header = props => {
     const [place, setPlace] = useState("");
 
     const onSubmitHandler = event => {
-        if (place) props.onSearchCity(place);
+        if (place) {
+            props.onSearchCity(place);
+        }
 
         event.preventDefault();
     };
