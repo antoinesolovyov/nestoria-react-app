@@ -5,6 +5,7 @@ import "./App.css";
 import Header from "./components/HeaderComponent/Header";
 import Article from "./components/ArticleComponent/Article";
 import Footer from "./components/FooterComponent/Footer";
+import Modal from "./components/ModalComponent/Modal";
 
 class App extends React.Component {
     state = {
@@ -13,7 +14,9 @@ class App extends React.Component {
         page: 1,
         total: 1,
         favorites: [],
-        favoritesIsClicked: false
+        favoritesIsClicked: false,
+        isModal: false,
+        modalCity: {}
     };
 
     request = async (place, page) => {
@@ -97,6 +100,20 @@ class App extends React.Component {
         city.isLiked = !city.isLiked;
     };
 
+    cityHandler = city => {
+        this.setState({
+            isModal: true,
+            modalCity: city
+        });
+    };
+
+    modalHandler = () => {
+        this.setState({
+            isModal: false,
+            modalCity: {}
+        });
+    };
+
     render() {
         return (
             <>
@@ -115,8 +132,19 @@ class App extends React.Component {
                     onLoadMoreClick={this.loadMoreHandler}
                     onPaginationClick={this.paginationHandler}
                     onLikeClick={this.likeHandler}
+                    onCityClick={this.cityHandler}
                 />
                 <Footer />
+
+                {this.state.isModal ? (
+                    <Modal
+                        city={this.state.modalCity}
+                        onModalClick={this.modalHandler}
+                        onLikeClick={this.likeHandler}
+                    />
+                ) : (
+                    ""
+                )}
             </>
         );
     }

@@ -8,22 +8,28 @@ class City extends React.Component {
         this.props.onLikeClick(isLikeClicked, this.props.city);
     };
 
+    cityClickHandler = () => {
+        this.props.onCityClick(this.props.city);
+    }
+
     render() {
         const { img_url, title, summary, price_formatted } = this.props.city;
 
         return (
             <div className="city">
-                <div className="city__image">
-                    <img src={img_url} alt={title} />
-                </div>
-                <div className="city__description">
-                    <p>
-                        <b>{title}</b>
-                    </p>
-                    <p>{summary}</p>
-                    <p>
-                        <b>{price_formatted}</b>
-                    </p>
+                <div onClick={this.cityClickHandler}>
+                    <div className="city__image">
+                        <img src={img_url} alt={title} />
+                    </div>
+                    <div className="city__description">
+                        <p>
+                            <b>{title}</b>
+                        </p>
+                        <p>{summary}</p>
+                        <p>
+                            <b>{price_formatted}</b>
+                        </p>
+                    </div>
                 </div>
                 <Like
                     city={this.props.city}
