@@ -7,6 +7,10 @@
     background: red;
 }
 
+.like:hover {
+    background: rgb(128, 0, 0);
+}
+
 .dislike {
     float: left;
     width: 48px;
@@ -14,4 +18,8 @@
     border: none;
     outline: none;
     background: white;
+}
+
+.dislike:hover {
+    background: rgb(255, 0, 0);
 }

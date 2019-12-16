@@ -15,7 +15,7 @@ class App extends React.Component {
         total: 1,
         favorites: [],
         favoritesIsClicked: false,
-        isModal: false,
+        isModalOpened: false,
         modalCity: {}
     };
 
@@ -41,6 +41,8 @@ class App extends React.Component {
         const result = await this.request(place, 1);
 
         this.modifyResult(result);
+
+        console.log(result);
 
         this.setState({
             cities: [...result.response.listings],
@@ -102,14 +104,14 @@ class App extends React.Component {
 
     cityHandler = city => {
         this.setState({
-            isModal: true,
+            isModalOpened: true,
             modalCity: city
         });
     };
 
     modalHandler = () => {
         this.setState({
-            isModal: false,
+            isModalOpened: false,
             modalCity: {}
         });
     };
@@ -136,14 +138,12 @@ class App extends React.Component {
                 />
                 <Footer />
 
-                {this.state.isModal ? (
+                {!!this.state.isModalOpened && (
                     <Modal
                         city={this.state.modalCity}
                         onModalClick={this.modalHandler}
                         onLikeClick={this.likeHandler}
                     />
-                ) : (
-                    ""
                 )}
             </>
         );

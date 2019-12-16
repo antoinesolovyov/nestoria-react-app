@@ -18,7 +18,7 @@
 
 .modal__description {
     float: left;
-    margin: 0px 16px;
+    padding: 0px 16px;
     width: 480px;
     background: white;
     height: 300px;
