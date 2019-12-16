@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 
 import "./Header.css";
+import Favorites from "../FavoritesComponent/Favorites";
 
 const Header = props => {
     const [place, setPlace] = useState("");
 
     const onSubmitHandler = event => {
-        props.onSearchCity(place);
+        if (place) props.onSearchCity(place);
 
         event.preventDefault();
     };
@@ -26,8 +27,8 @@ const Header = props => {
                     onChange={onChangeHandler}
                     placeholder="London"
                 />
-                <button className="button__like">♥</button>
             </form>
+            <Favorites onFavoritesClick={props.onFavoritesClick} />
         </header>
     );
 };

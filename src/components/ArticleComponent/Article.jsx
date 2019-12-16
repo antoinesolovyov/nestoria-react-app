@@ -8,14 +8,22 @@ import Pagination from "../PaginationComponent/Pagination";
 const Article = props => (
     <article>
         <h3>Найденные города</h3>
-        <List cities={props.cities} />
-        <LoadMore onLoadMoreClick={props.onLoadMoreClick} />
-        
-        <Pagination
-            page={props.page}
-            total={props.total}
-            onPaginationClick={props.onPaginationClick}
-        />
+        <List cities={props.cities} onLikeClick={props.onLikeClick} />
+        {props.cities.length ? (
+            <LoadMore onLoadMoreClick={props.onLoadMoreClick} />
+        ) : (
+            ""
+        )}
+
+        {props.cities.length ? (
+            <Pagination
+                page={props.page}
+                total={props.total}
+                onPaginationClick={props.onPaginationClick}
+            />
+        ) : (
+            ""
+        )}
     </article>
 );
 

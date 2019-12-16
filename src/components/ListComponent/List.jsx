@@ -8,7 +8,7 @@ const List = props => {
     const getCities = () =>
         props.cities.map(city => (
             <li key={city.id}>
-                <City city={city} />
+                <City city={city} onLikeClick={props.onLikeClick} />
             </li>
         ));
 

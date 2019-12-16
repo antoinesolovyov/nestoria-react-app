@@ -1,8 +1,14 @@
 import React from "react";
 
 import "./City.css";
+import Like from "../LikeComponent/Like";
 
 class City extends React.Component {
+
+    likeClickHandler = (isLikeClicked) => {
+        this.props.onLikeClick(isLikeClicked, this.props.city);
+    }
+
     render() {
         const { img_url, title, summary, price_formatted } = this.props.city;
 
@@ -20,7 +26,7 @@ class City extends React.Component {
                         <b>{price_formatted}</b>
                     </p>
                 </div>
-                <button className="city__like">♥</button>
+                <Like onLikeClick={this.likeClickHandler}/>
             </div>
         );
     }

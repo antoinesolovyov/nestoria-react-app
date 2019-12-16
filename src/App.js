@@ -12,7 +12,8 @@ class App extends React.Component {
         cities: [],
         page: 1,
         total: 1,
-        favorites: []
+        favorites: [],
+        favoritesIsClicked: false
     };
 
     request = async (place, page) => {
@@ -59,16 +60,52 @@ class App extends React.Component {
         });
     };
 
+    favoritesHandler = (clicked) => {
+        if (clicked) {
+            this.setState({
+                favoritesIsClicked: true
+            });
+        } else {
+            this.setState({
+                favoritesIsClicked: false
+            });
+        }
+
+        console.log(clicked);
+    };
+
+    likeHandler = (liked, city) => {
+        if (liked) {
+            this.setState({
+                favorites: [...this.state.favorites, city]
+            });
+        } else {
+            this.setState({
+                favorites: this.state.favorites.filter((favCity) => favCity.id !== city.id)
+            });
+        }
+
+        console.log(liked, city);
+    }
+
     render() {
         return (
             <>
-                <Header onSearchCity={this.searchCityHandler} />
+                <Header
+                    onSearchCity={this.searchCityHandler}
+                    onFavoritesClick={this.favoritesHandler}
+                />
                 <Article
                     page={this.state.page}
                     total={this.state.total}
-                    cities={this.state.cities}
+                    cities={
+                        this.state.favoritesIsClicked
+                            ? this.state.favorites
+                            : this.state.cities
+                    }
                     onLoadMoreClick={this.loadMoreHandler}
                     onPaginationClick={this.paginationHandler}
+                    onLikeClick={this.likeHandler}
                 />
                 <Footer />
             </>
