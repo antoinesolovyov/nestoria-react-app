@@ -1,6 +1,15 @@
-.favorites {
+.favorites__active {
     width: 48px;
     height: 48px;
     border: 1px solid black;
     outline: none;
+    background: red;
+}
+
+.favorites__disactive {
+    width: 48px;
+    height: 48px;
+    border: 1px solid black;
+    outline: none;
+    background: white;
 }

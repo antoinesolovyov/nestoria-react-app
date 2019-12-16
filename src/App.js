@@ -28,7 +28,12 @@ class App extends React.Component {
     searchCityHandler = async place => {
         const result = await this.request(place, 1);
 
-        result.response.listings.map(city => (city.id = uuid.v1()));
+        result.response.listings.map(city => {
+            city.id = uuid.v1();
+            city.isLiked = false;
+
+            return city;
+        });
 
         this.setState({
             cities: [...result.response.listings],
@@ -41,7 +46,12 @@ class App extends React.Component {
     loadMoreHandler = async page => {
         const result = await this.request(this.state.place, page);
 
-        result.response.listings.map(city => (city.id = uuid.v1()));
+        result.response.listings.map(city => {
+            city.id = uuid.v1();
+            city.isLiked = false;
+
+            return city;
+        });
 
         this.setState({
             cities: [...this.state.cities, ...result.response.listings],
@@ -52,7 +62,12 @@ class App extends React.Component {
     paginationHandler = async page => {
         const result = await this.request(this.state.place, page);
 
-        result.response.listings.map(city => (city.id = uuid.v1()));
+        result.response.listings.map(city => {
+            city.id = uuid.v1();
+            city.isLiked = false;
+
+            return city;
+        });
 
         this.setState({
             cities: [...result.response.listings],
@@ -85,7 +100,7 @@ class App extends React.Component {
             });
         }
 
-        console.log(liked, city);
+        city.isLiked = !city.isLiked;
     }
 
     render() {

@@ -26,7 +26,7 @@ class City extends React.Component {
                         <b>{price_formatted}</b>
                     </p>
                 </div>
-                <Like onLikeClick={this.likeClickHandler}/>
+                <Like city={this.props.city} onLikeClick={this.likeClickHandler}/>
             </div>
         );
     }
