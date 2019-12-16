@@ -1,0 +1,17 @@
+.like {
+    float: left;
+    width: 48px;
+    height: 128px;
+    border: none;
+    outline: none;
+    background: red;
+}
+
+.dislike {
+    float: left;
+    width: 48px;
+    height: 128px;
+    border: none;
+    outline: none;
+    background: white;
+}
