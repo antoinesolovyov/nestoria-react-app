@@ -27,19 +27,15 @@ const Modal = props => {
             <div className="modal__city">
                 <div onClick={modalClickHandler}>
                     <div className="modal__description">
-                        <p>
-                            <b>{title}</b>
-                        </p>
+                        <p>{title}</p>
                         <p>{summary}</p>
-                        <p>
-                            <b>{price_formatted}</b>
-                        </p>
+                        <p>{price_formatted}</p>
                         <p>{keywords}</p>
-                        <p>bathroom_number {bathroom_number}</p>
-                        <p>bedroom_number {bedroom_number}</p>
+                        <p>Bathroom number: {bathroom_number}</p>
+                        <p>Bedroom number: {bedroom_number}</p>
                     </div>
                     <div className="city__image">
-                        <img src={img_url} alt="" />
+                        <img src={img_url} alt={title} />
                     </div>
                 </div>
                 <Like city={props.city} onLikeClick={likeClickHandler} />

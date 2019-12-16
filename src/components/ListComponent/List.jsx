@@ -1,7 +1,6 @@
 import React from "react";
 
 import "./List.css";
-
 import City from "../CityComponent/City";
 
 const List = props => {

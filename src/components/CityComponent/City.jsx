@@ -10,7 +10,7 @@ class City extends React.Component {
 
     cityClickHandler = () => {
         this.props.onCityClick(this.props.city);
-    }
+    };
 
     render() {
         const { img_url, title, summary, price_formatted } = this.props.city;
@@ -22,13 +22,9 @@ class City extends React.Component {
                         <img src={img_url} alt={title} />
                     </div>
                     <div className="city__description">
-                        <p>
-                            <b>{title}</b>
-                        </p>
+                        <p>{title}</p>
                         <p>{summary}</p>
-                        <p>
-                            <b>{price_formatted}</b>
-                        </p>
+                        <p>{price_formatted}</p>
                     </div>
                 </div>
                 <Like

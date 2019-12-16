@@ -1,6 +1,6 @@
 import React from "react";
-import "./Article.css";
 
+import "./Article.css";
 import List from "../ListComponent/List";
 import LoadMore from "../LoadMoreComponent/LoadMore";
 import Pagination from "../PaginationComponent/Pagination";
