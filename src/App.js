@@ -75,7 +75,7 @@ class App extends React.Component {
         });
     };
 
-    favoritesHandler = (clicked) => {
+    favoritesHandler = clicked => {
         if (clicked) {
             this.setState({
                 favoritesIsClicked: true
@@ -85,8 +85,6 @@ class App extends React.Component {
                 favoritesIsClicked: false
             });
         }
-
-        console.log(clicked);
     };
 
     likeHandler = (liked, city) => {
@@ -96,12 +94,14 @@ class App extends React.Component {
             });
         } else {
             this.setState({
-                favorites: this.state.favorites.filter((favCity) => favCity.id !== city.id)
+                favorites: this.state.favorites.filter(
+                    favCity => favCity.id !== city.id
+                )
             });
         }
 
         city.isLiked = !city.isLiked;
-    }
+    };
 
     render() {
         return (

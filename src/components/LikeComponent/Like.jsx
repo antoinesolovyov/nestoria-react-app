@@ -9,7 +9,10 @@ class Like extends React.Component {
 
     render() {
         return (
-            <button onClick={this.likeClickHandler} className={this.props.city.isLiked ? "like" : "dislike"}>
+            <button
+                onClick={this.likeClickHandler}
+                className={this.props.city.isLiked ? "like" : "dislike"}
+            >
                 ♥
             </button>
         );

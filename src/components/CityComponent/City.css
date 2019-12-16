@@ -20,14 +20,6 @@ img {
     width: 480px;
 }
 
-.city__like {
-    float: left;
-    width: 48px;
-    height: 128px;
-    border: none;
-    outline: none;
-}
-
 p {
     padding: 0px;
     margin: 8px 0px;

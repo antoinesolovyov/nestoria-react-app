@@ -11,11 +11,18 @@ class Favorites extends React.Component {
         this.props.onFavoritesClick(!this.state.favoritesIsClicked);
 
         this.setState({ favoritesIsClicked: !this.state.favoritesIsClicked });
-    }
+    };
 
     render() {
         return (
-            <button onClick={this.favoritesClickHandler} className={this.state.favoritesIsClicked ? "favorites__active" : "favorites__disactive"} >
+            <button
+                onClick={this.favoritesClickHandler}
+                className={
+                    this.state.favoritesIsClicked
+                        ? "favorites favorites__active"
+                        : "favorites favorites__disactive"
+                }
+            >
                 ♥
             </button>
         );
