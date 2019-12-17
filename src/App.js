@@ -57,17 +57,15 @@ const App = () => {
     };
 
     const favoritesHandler = clicked => {
-        clicked ?
-            setFavoritesIsClicked(true) :
-            setFavoritesIsClicked(false);
+        clicked ? setFavoritesIsClicked(true) : setFavoritesIsClicked(false);
     };
 
-    const likeHandler = (liked, flat) => {
-        liked ?
-            setFavorites([...favorites, flat]) :
-            setFavorites(favorites.filter(favoriteFlat => favoriteFlat.id !== flat.id));
+    const likeHandler = liked => {
+        liked
+            ? setFavorites([...favorites, modalFlat])
+            : setFavorites(favorites.filter(flat => flat.id !== modalFlat.id));
 
-        flat.isLiked = !flat.isLiked;
+            modalFlat.isLiked = !modalFlat.isLiked;
     };
 
     const flatHandler = flat => {
