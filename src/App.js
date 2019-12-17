@@ -8,14 +8,16 @@ import Footer from "./components/FooterComponent/Footer";
 import Modal from "./components/ModalComponent/Modal";
 
 const App = () => {
-    const [place, setPlace] = useState("");
-    const [flats, setFlats] = useState([]);
-    const [page, setPage] = useState(1);
-    const [total, setTotal] = useState(1);
-    const [favorites, setFavorites] = useState([]);
-    const [favoritesIsClicked, setFavoritesIsClicked] = useState(false);
-    const [isModalOpened, setIsModalOpened] = useState(false);
-    const [modalFlat, setModalFlat] = useState({});
+    const [state, setState] = useState({
+        place: "",
+        flats: [],
+        page: 1,
+        total: 1,
+        favorites: [],
+        favoritesIsClicked: false,
+        isModalOpened: false,
+        modalFlat: {}
+    });
 
     const request = async (place, page) => {
         const url = `https://api.nestoria.co.uk/api?page=${page}&encoding=json&action=search_listings&place_name=${place}`;
@@ -36,46 +38,79 @@ const App = () => {
     const searchCityHandler = async place => {
         const result = await request(place, 1);
 
-        setPlace(place);
-        setFlats([...result.response.listings]);
-        setPage(1);
-        setTotal(result.response.total_pages);
+        setState(state => ({
+            ...state,
+            place,
+            flats: [...result.response.listings],
+            page: 1,
+            total: result.response.total_pages
+        }));
     };
 
     const loadMoreHandler = async page => {
-        const result = await request(place, page);
+        const result = await request(state.place, page);
 
-        setFlats([...flats, ...result.response.listings]);
-        setPage(page);
+        setState(state => ({
+            ...state,
+            flats: [...state.flats, ...result.response.listings],
+            page
+        }));
     };
 
     const paginationHandler = async page => {
-        const result = await request(place, page);
+        const result = await request(state.place, page);
 
-        setFlats([...result.response.listings]);
-        setPage(page);
+        setState(state => ({
+            ...state,
+            flats: [...result.response.listings],
+            page
+        }));
     };
 
     const favoritesHandler = clicked => {
-        clicked ? setFavoritesIsClicked(true) : setFavoritesIsClicked(false);
+        if (clicked) {
+            setState(state => ({
+                ...state,
+                favoritesIsClicked: true
+            }));
+        } else {
+            setState(state => ({
+                ...state,
+                favoritesIsClicked: false
+            }));
+        }
     };
 
-    const likeHandler = liked => {
-        liked
-            ? setFavorites([...favorites, modalFlat])
-            : setFavorites(favorites.filter(flat => flat.id !== modalFlat.id));
+    const likeHandler = (liked, flat) => {
+        if (liked) {
+            setState(state => ({
+                ...state,
+                favorites: [...state.favorites, flat]
+            }));
+        } else {
+            setState(state => ({
+                ...state,
+                favorites: state.favorites.filter(favoriteFlat => favoriteFlat.id !== flat.id)
+            }));
+        }
 
-            modalFlat.isLiked = !modalFlat.isLiked;
+        flat.isLiked = !flat.isLiked;
     };
 
     const flatHandler = flat => {
-        setIsModalOpened(true);
-        setModalFlat(flat);
+        setState(state => ({
+            ...state,
+            isModalOpened: true,
+            modalFlat: flat
+        }));
     };
 
     const modalHandler = () => {
-        setIsModalOpened(false);
-        setModalFlat({});
+        setState(state => ({
+            ...state,
+            isModalOpened: false,
+            modalFlat: {}
+        }));
     };
 
     return (
@@ -85,9 +120,9 @@ const App = () => {
                 onFavoritesClick={favoritesHandler}
             />
             <Article
-                page={page}
-                total={total}
-                flats={favoritesIsClicked ? favorites : flats}
+                page={state.page}
+                total={state.total}
+                flats={state.favoritesIsClicked ? state.favorites : state.flats}
                 onLoadMoreClick={loadMoreHandler}
                 onPaginationClick={paginationHandler}
                 onLikeClick={likeHandler}
@@ -95,9 +130,9 @@ const App = () => {
             />
             <Footer />
 
-            {!!isModalOpened && (
+            {!!state.isModalOpened && (
                 <Modal
-                    flat={modalFlat}
+                    flat={state.modalFlat}
                     onModalClick={modalHandler}
                     onLikeClick={likeHandler}
                 />

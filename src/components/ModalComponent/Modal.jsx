@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import "./Modal.css";
 import Like from "../LikeComponent/Like";
@@ -13,6 +13,13 @@ const Modal = props => {
         bathroom_number,
         bedroom_number
     } = props.flat;
+
+    const likeClickHandler = useCallback(
+        isLikeClicked => {
+            props.onLikeClick(isLikeClicked, props.flat);
+        },
+        [props]
+    );
 
     return (
         <div className="modal">
@@ -30,7 +37,7 @@ const Modal = props => {
                         <img src={img_url} alt={title} />
                     </div>
                 </div>
-                <Like flat={props.flat} onLikeClick={props.onLikeClick} />
+                <Like flat={props.flat} onLikeClick={likeClickHandler} />
             </div>
         </div>
     );
