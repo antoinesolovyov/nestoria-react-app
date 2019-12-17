@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import "./Pagination.css";
 
 const Pagination = props => {
-    const onClickHandler = event => {
+    const onClickHandler = useCallback(event => {
         props.onPaginationClick(event.target.id);
-    };
+    }, [props]);
 
-    const getPages = (left, right) => {
+    const getPages = useCallback((left, right) => {
         const list = [];
 
         for (let i = left; i <= right; i++) {
@@ -24,7 +24,7 @@ const Pagination = props => {
         }
 
         return list;
-    };
+    }, [props, onClickHandler]);
 
     const { page, total } = props;
 

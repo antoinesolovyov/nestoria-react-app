@@ -9,13 +9,13 @@ import Modal from "./components/ModalComponent/Modal";
 
 const App = () => {
     const [place, setPlace] = useState("");
-    const [cities, setCities] = useState([]);
+    const [flats, setFlats] = useState([]);
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(1);
     const [favorites, setFavorites] = useState([]);
     const [favoritesIsClicked, setFavoritesIsClicked] = useState(false);
     const [isModalOpened, setIsModalOpened] = useState(false);
-    const [modalCity, setModalCity] = useState({});
+    const [modalFlat, setModalFlat] = useState({});
 
     const request = async (place, page) => {
         const url = `https://api.nestoria.co.uk/api?page=${page}&encoding=json&action=search_listings&place_name=${place}`;
@@ -23,11 +23,11 @@ const App = () => {
         const response = await fetch(url);
         const result = await response.json();
 
-        result.response.listings.map(city => {
-            city.id = uuid.v1();
-            city.isLiked = false;
+        result.response.listings.map(flat => {
+            flat.id = uuid.v1();
+            flat.isLiked = false;
 
-            return city;
+            return flat;
         });
 
         return result;
@@ -37,7 +37,7 @@ const App = () => {
         const result = await request(place, 1);
 
         setPlace(place);
-        setCities([...result.response.listings]);
+        setFlats([...result.response.listings]);
         setPage(1);
         setTotal(result.response.total_pages);
     };
@@ -45,14 +45,14 @@ const App = () => {
     const loadMoreHandler = async page => {
         const result = await request(place, page);
 
-        setCities([...cities, ...result.response.listings]);
+        setFlats([...flats, ...result.response.listings]);
         setPage(page);
     };
 
     const paginationHandler = async page => {
         const result = await request(place, page);
 
-        setCities([...result.response.listings]);
+        setFlats([...result.response.listings]);
         setPage(page);
     };
 
@@ -62,22 +62,22 @@ const App = () => {
             setFavoritesIsClicked(false);
     };
 
-    const likeHandler = (liked, city) => {
+    const likeHandler = (liked, flat) => {
         liked ?
-            setFavorites([...favorites, city]) :
-            setFavorites(favorites.filter(favCity => favCity.id !== city.id));
+            setFavorites([...favorites, flat]) :
+            setFavorites(favorites.filter(favoriteFlat => favoriteFlat.id !== flat.id));
 
-        city.isLiked = !city.isLiked;
+        flat.isLiked = !flat.isLiked;
     };
 
-    const cityHandler = city => {
+    const flatHandler = flat => {
         setIsModalOpened(true);
-        setModalCity(city);
+        setModalFlat(flat);
     };
 
     const modalHandler = () => {
         setIsModalOpened(false);
-        setModalCity({});
+        setModalFlat({});
     };
 
     return (
@@ -89,17 +89,17 @@ const App = () => {
             <Article
                 page={page}
                 total={total}
-                cities={favoritesIsClicked ? favorites : cities}
+                flats={favoritesIsClicked ? favorites : flats}
                 onLoadMoreClick={loadMoreHandler}
                 onPaginationClick={paginationHandler}
                 onLikeClick={likeHandler}
-                onCityClick={cityHandler}
+                onFlatClick={flatHandler}
             />
             <Footer />
 
             {!!isModalOpened && (
                 <Modal
-                    city={modalCity}
+                    flat={modalFlat}
                     onModalClick={modalHandler}
                     onLikeClick={likeHandler}
                 />

@@ -1,21 +1,21 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import "./List.css";
-import City from "../CityComponent/City";
+import Flat from "../FlatComponent/Flat";
 
 const List = props => {
-    const getCities = () =>
-        props.cities.map(city => (
-            <li key={city.id}>
-                <City
-                    city={city}
-                    onCityClick={props.onCityClick}
+    const getFlats = useCallback(() =>
+        props.flats.map(flat => (
+            <li key={flat.id}>
+                <Flat
+                    flat={flat}
+                    onFlatClick={props.onFlatClick}
                     onLikeClick={props.onLikeClick}
                 />
             </li>
-        ));
+        )), [props]);
 
-    return <ul>{getCities()}</ul>;
+    return <ul>{getFlats()}</ul>;
 };
 
 export default List;

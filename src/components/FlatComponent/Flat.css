@@ -1,4 +1,4 @@
-.city {
+.flat {
     display: flex;
     height: 128px;
 }
@@ -8,13 +8,13 @@ img {
     height: 128px;
 }
 
-.city__image {
+.flat__image {
     float: left;
     width: 128px;
     height: 128px;
 }
 
-.city__description {
+.flat__description {
     float: left;
     margin: 0px 16px;
     width: 480px;

@@ -7,18 +7,18 @@ import Pagination from "../PaginationComponent/Pagination";
 
 const Article = props => (
     <article>
-        <h3>Найденные города</h3>
+        <h3>Найденные квартиры</h3>
         <List
-            cities={props.cities}
-            onCityClick={props.onCityClick}
+            flats={props.flats}
+            onFlatClick={props.onFlatClick}
             onLikeClick={props.onLikeClick}
         />
 
-        {!!props.cities.length && (
+        {!!props.flats.length && (
             <LoadMore onLoadMoreClick={props.onLoadMoreClick} />
         )}
 
-        {!!props.cities.length && (
+        {!!props.flats.length && (
             <Pagination
                 page={props.page}
                 total={props.total}

@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 import "./Modal.css";
 import Like from "../LikeComponent/Like";
 
 const Modal = props => {
-    const modalClickHandler = () => {
-        props.onModalClick();
-    };
-
-    const likeClickHandler = isLikeClicked => {
-        props.onLikeClick(isLikeClicked, props.city);
-    };
+    const likeClickHandler = useCallback(
+        isLikeClicked => {
+            props.onLikeClick(isLikeClicked, props.flat);
+        },
+        [props]
+    );
 
     const {
         img_url,
@@ -20,12 +19,12 @@ const Modal = props => {
         keywords,
         bathroom_number,
         bedroom_number
-    } = props.city;
+    } = props.flat;
 
     return (
         <div className="modal">
-            <div className="modal__city">
-                <div onClick={modalClickHandler}>
+            <div className="modal__flat">
+                <div onClick={props.onModalClick}>
                     <div className="modal__description">
                         <p>{title}</p>
                         <p>{summary}</p>
@@ -34,11 +33,11 @@ const Modal = props => {
                         <p>Bathroom number: {bathroom_number}</p>
                         <p>Bedroom number: {bedroom_number}</p>
                     </div>
-                    <div className="city__image">
+                    <div className="flat__image">
                         <img src={img_url} alt={title} />
                     </div>
                 </div>
-                <Like city={props.city} onLikeClick={likeClickHandler} />
+                <Like flat={props.flat} onLikeClick={likeClickHandler} />
             </div>
         </div>
     );
