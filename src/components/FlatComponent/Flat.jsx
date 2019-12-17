@@ -6,9 +6,12 @@ import Like from "../LikeComponent/Like";
 const Flat = props => {
     const { img_url, title, summary, price_formatted } = props.flat;
 
-    const likeClickHandler = useCallback(isLikeClicked => {
-        props.onLikeClick(isLikeClicked, props.flat);
-    }, [props]);
+    const likeClickHandler = useCallback(
+        isLikeClicked => {
+            props.onLikeClick(isLikeClicked, props.flat);
+        },
+        [props]
+    );
 
     return (
         <div className="flat">

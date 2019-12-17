@@ -3,28 +3,34 @@ import React, { useCallback } from "react";
 import "./Pagination.css";
 
 const Pagination = props => {
-    const onClickHandler = useCallback(event => {
-        props.onPaginationClick(event.target.id);
-    }, [props]);
+    const onClickHandler = useCallback(
+        event => {
+            props.onPaginationClick(event.target.id);
+        },
+        [props]
+    );
 
-    const getPages = useCallback((left, right) => {
-        const list = [];
+    const getPages = useCallback(
+        (left, right) => {
+            const list = [];
 
-        for (let i = left; i <= right; i++) {
-            list.push(
-                <li
-                    key={i}
-                    id={i}
-                    className={+props.page === i ? "red" : "white"}
-                    onClick={onClickHandler}
-                >
-                    {i}
-                </li>
-            );
-        }
+            for (let i = left; i <= right; i++) {
+                list.push(
+                    <li
+                        key={i}
+                        id={i}
+                        className={+props.page === i ? "red" : "white"}
+                        onClick={onClickHandler}
+                    >
+                        {i}
+                    </li>
+                );
+            }
 
-        return list;
-    }, [props, onClickHandler]);
+            return list;
+        },
+        [props, onClickHandler]
+    );
 
     const { page, total } = props;
 

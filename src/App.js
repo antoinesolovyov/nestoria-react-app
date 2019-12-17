@@ -90,7 +90,9 @@ const App = () => {
         } else {
             setState(state => ({
                 ...state,
-                favorites: state.favorites.filter(favoriteFlat => favoriteFlat.id !== flat.id)
+                favorites: state.favorites.filter(
+                    favoriteFlat => favoriteFlat.id !== flat.id
+                )
             }));
         }
 

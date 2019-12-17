@@ -6,17 +6,23 @@ import Favorites from "../FavoritesComponent/Favorites";
 const Header = props => {
     const [place, setPlace] = useState("");
 
-    const onSubmitHandler = useCallback(event => {
-        if (place) {
-            props.onSearchCity(place);
-        }
+    const onSubmitHandler = useCallback(
+        event => {
+            if (place) {
+                props.onSearchCity(place);
+            }
 
-        event.preventDefault();
-    }, [props, place]);
+            event.preventDefault();
+        },
+        [props, place]
+    );
 
-    const onChangeHandler = useCallback(event => {
-        setPlace(event.target.value);
-    }, [setPlace]);
+    const onChangeHandler = useCallback(
+        event => {
+            setPlace(event.target.value);
+        },
+        [setPlace]
+    );
 
     return (
         <header>
