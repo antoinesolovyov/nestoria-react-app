@@ -1,36 +1,28 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 
 import "./Favorites.css";
 
-class Favorites extends React.Component {
-    state = {
-        favoritesIsClicked: false
-    };
+const Favorites = props => {
+    const [favoritesIsClicked, setFavoritesIsClicked] = useState(false);
 
-    favoritesClickHandler = () => {
-        this.props.onFavoritesClick(!this.state.favoritesIsClicked);
+    const favoritesClickHandler = useCallback(() => {
+        props.onFavoritesClick(!favoritesIsClicked);
 
-        this.setState(state => {
-            return {
-                favoritesIsClicked: !state.favoritesIsClicked
-            };
-        });
-    };
+        setFavoritesIsClicked(!favoritesIsClicked);
+    }, [props, favoritesIsClicked, setFavoritesIsClicked]);
 
-    render() {
-        return (
-            <button
-                onClick={this.favoritesClickHandler}
-                className={
-                    this.state.favoritesIsClicked
-                        ? "favorites favorites__active"
-                        : "favorites favorites__disactive"
-                }
-            >
-                ♥
-            </button>
-        );
-    }
-}
+    return (
+        <button
+            onClick={favoritesClickHandler}
+            className={
+                favoritesIsClicked
+                    ? "favorites favorites__active"
+                    : "favorites favorites__disactive"
+            }
+        >
+            ♥
+        </button>
+    );
+};
 
 export default Favorites;

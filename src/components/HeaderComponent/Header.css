@@ -30,14 +30,3 @@ form {
     border: none;
     outline: none;
 }
-
-.button__like {
-    width: 48px;
-    height: 48px;
-    border: 1px solid black;
-    outline: none;
-}
-
-.button__like:hover {
-    background: red;
-}

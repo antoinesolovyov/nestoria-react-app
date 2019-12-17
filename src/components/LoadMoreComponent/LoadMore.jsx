@@ -1,26 +1,20 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 
 import "./LoadMore.css";
 
-class LoadMore extends React.Component {
-    state = {
-        page: 1
-    };
+const LoadMore = props => {
+    const [page, setPage] = useState(0);
 
-    onClickHandler = () => {
-        const page = this.state.page + 1;
+    const onClickHandler = useCallback(() => {
+        props.onLoadMoreClick(page + 1);
+        setPage(page + 1);
+    }, [props, page, setPage]);
 
-        this.props.onLoadMoreClick(page);
-        this.setState({ page });
-    };
-
-    render() {
-        return (
-            <div>
-                <button onClick={this.onClickHandler}>Load More</button>
-            </div>
-        );
-    }
-}
+    return (
+        <div>
+            <button onClick={onClickHandler}>Load More</button>
+        </div>
+    );
+};
 
 export default LoadMore;

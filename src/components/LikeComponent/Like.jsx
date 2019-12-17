@@ -5,8 +5,8 @@ import "./Like.css";
 const Like = props => {
     return (
         <button
-            onClick={() => props.onLikeClick(!props.city.isLiked)}
-            className={props.city.isLiked ? "like" : "dislike"}
+            onClick={() => props.onLikeClick(!props.flat.isLiked)}
+            className={props.flat.isLiked ? "like" : "dislike"}
         >
             ♥
         </button>

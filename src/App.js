@@ -1,125 +1,146 @@
-import React from "react";
+import React, { useState } from "react";
 import uuid from "uuid";
 
 import "./App.css";
 import Header from "./components/HeaderComponent/Header";
 import Article from "./components/ArticleComponent/Article";
 import Footer from "./components/FooterComponent/Footer";
+import Modal from "./components/ModalComponent/Modal";
 
-class App extends React.Component {
-    state = {
+const App = () => {
+    const [state, setState] = useState({
         place: "",
-        cities: [],
+        flats: [],
         page: 1,
         total: 1,
         favorites: [],
-        favoritesIsClicked: false
-    };
+        favoritesIsClicked: false,
+        isModalOpened: false,
+        modalFlat: {}
+    });
 
-    request = async (place, page) => {
+    const request = async (place, page) => {
         const url = `https://api.nestoria.co.uk/api?page=${page}&encoding=json&action=search_listings&place_name=${place}`;
 
         const response = await fetch(url);
         const result = await response.json();
 
+        result.response.listings.map(flat => {
+            flat.id = uuid.v1();
+            flat.isLiked = false;
+
+            return flat;
+        });
+
         return result;
     };
 
-    modifyResult(result) {
-        result.response.listings.map(city => {
-            city.id = uuid.v1();
-            city.isLiked = false;
+    const searchCityHandler = async place => {
+        const result = await request(place, 1);
 
-            return city;
-        });
-    }
-
-    searchCityHandler = async place => {
-        const result = await this.request(place, 1);
-
-        this.modifyResult(result);
-
-        this.setState({
-            cities: [...result.response.listings],
+        setState(state => ({
+            ...state,
             place,
+            flats: [...result.response.listings],
             page: 1,
             total: result.response.total_pages
-        });
+        }));
     };
 
-    loadMoreHandler = async page => {
-        const result = await this.request(this.state.place, page);
+    const loadMoreHandler = async page => {
+        const result = await request(state.place, page);
 
-        this.modifyResult(result);
-
-        this.setState({
-            cities: [...this.state.cities, ...result.response.listings],
+        setState(state => ({
+            ...state,
+            flats: [...state.flats, ...result.response.listings],
             page
-        });
+        }));
     };
 
-    paginationHandler = async page => {
-        const result = await this.request(this.state.place, page);
+    const paginationHandler = async page => {
+        const result = await request(state.place, page);
 
-        this.modifyResult(result);
-
-        this.setState({
-            cities: [...result.response.listings],
+        setState(state => ({
+            ...state,
+            flats: [...result.response.listings],
             page
-        });
+        }));
     };
 
-    favoritesHandler = clicked => {
+    const favoritesHandler = clicked => {
         if (clicked) {
-            this.setState({
+            setState(state => ({
+                ...state,
                 favoritesIsClicked: true
-            });
+            }));
         } else {
-            this.setState({
+            setState(state => ({
+                ...state,
                 favoritesIsClicked: false
-            });
+            }));
         }
     };
 
-    likeHandler = (liked, city) => {
+    const likeHandler = (liked, flat) => {
         if (liked) {
-            this.setState({
-                favorites: [...this.state.favorites, city]
-            });
+            setState(state => ({
+                ...state,
+                favorites: [...state.favorites, flat]
+            }));
         } else {
-            this.setState({
-                favorites: this.state.favorites.filter(
-                    favCity => favCity.id !== city.id
+            setState(state => ({
+                ...state,
+                favorites: state.favorites.filter(
+                    favoriteFlat => favoriteFlat.id !== flat.id
                 )
-            });
+            }));
         }
 
-        city.isLiked = !city.isLiked;
+        flat.isLiked = !flat.isLiked;
     };
 
-    render() {
-        return (
-            <>
-                <Header
-                    onSearchCity={this.searchCityHandler}
-                    onFavoritesClick={this.favoritesHandler}
+    const flatHandler = flat => {
+        setState(state => ({
+            ...state,
+            isModalOpened: true,
+            modalFlat: flat
+        }));
+    };
+
+    const modalHandler = () => {
+        setState(state => ({
+            ...state,
+            isModalOpened: false,
+            modalFlat: {}
+        }));
+    };
+
+    return (
+        <>
+            <Header
+                onSearchCity={searchCityHandler}
+                onFavoritesClick={favoritesHandler}
+            />
+            <Article
+                page={state.page}
+                total={state.total}
+                flats={state.favoritesIsClicked ? state.favorites : state.flats}
+                onLoadMoreClick={loadMoreHandler}
+                onPaginationClick={paginationHandler}
+                onLikeClick={likeHandler}
+                onFlatClick={flatHandler}
+            />
+            <Footer />
+
+            {!!state.isModalOpened && (
+                <Modal
+                    flat={state.modalFlat}
+                    onModalClick={modalHandler}
+                    onLikeClick={likeHandler}
                 />
-                <Article
-                    page={this.state.page}
-                    total={this.state.total}
-                    cities={
-                        this.state.favoritesIsClicked
-                            ? this.state.favorites
-                            : this.state.cities
-                    }
-                    onLoadMoreClick={this.loadMoreHandler}
-                    onPaginationClick={this.paginationHandler}
-                    onLikeClick={this.likeHandler}
-                />
-                <Footer />
-            </>
-        );
-    }
-}
+            )}
+        </>
+    );
+};
 
 export default App;
