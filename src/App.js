@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import uuid from "uuid";
 
 import "./App.css";
@@ -7,147 +7,105 @@ import Article from "./components/ArticleComponent/Article";
 import Footer from "./components/FooterComponent/Footer";
 import Modal from "./components/ModalComponent/Modal";
 
-class App extends React.Component {
-    state = {
-        place: "",
-        cities: [],
-        page: 1,
-        total: 1,
-        favorites: [],
-        favoritesIsClicked: false,
-        isModalOpened: false,
-        modalCity: {}
-    };
+const App = () => {
+    const [place, setPlace] = useState("");
+    const [cities, setCities] = useState([]);
+    const [page, setPage] = useState(1);
+    const [total, setTotal] = useState(1);
+    const [favorites, setFavorites] = useState([]);
+    const [favoritesIsClicked, setFavoritesIsClicked] = useState(false);
+    const [isModalOpened, setIsModalOpened] = useState(false);
+    const [modalCity, setModalCity] = useState({});
 
-    request = async (place, page) => {
+    const request = async (place, page) => {
         const url = `https://api.nestoria.co.uk/api?page=${page}&encoding=json&action=search_listings&place_name=${place}`;
 
         const response = await fetch(url);
         const result = await response.json();
 
-        return result;
-    };
-
-    modifyResult(result) {
         result.response.listings.map(city => {
             city.id = uuid.v1();
             city.isLiked = false;
 
             return city;
         });
-    }
 
-    searchCityHandler = async place => {
-        const result = await this.request(place, 1);
-
-        this.modifyResult(result);
-
-        console.log(result);
-
-        this.setState({
-            cities: [...result.response.listings],
-            place,
-            page: 1,
-            total: result.response.total_pages
-        });
+        return result;
     };
 
-    loadMoreHandler = async page => {
-        const result = await this.request(this.state.place, page);
+    const searchCityHandler = async place => {
+        const result = await request(place, 1);
 
-        this.modifyResult(result);
-
-        this.setState({
-            cities: [...this.state.cities, ...result.response.listings],
-            page
-        });
+        setPlace(place);
+        setCities([...result.response.listings]);
+        setPage(1);
+        setTotal(result.response.total_pages);
     };
 
-    paginationHandler = async page => {
-        const result = await this.request(this.state.place, page);
+    const loadMoreHandler = async page => {
+        const result = await request(place, page);
 
-        this.modifyResult(result);
-
-        this.setState({
-            cities: [...result.response.listings],
-            page
-        });
+        setCities([...cities, ...result.response.listings]);
+        setPage(page);
     };
 
-    favoritesHandler = clicked => {
-        if (clicked) {
-            this.setState({
-                favoritesIsClicked: true
-            });
-        } else {
-            this.setState({
-                favoritesIsClicked: false
-            });
-        }
+    const paginationHandler = async page => {
+        const result = await request(place, page);
+
+        setCities([...result.response.listings]);
+        setPage(page);
     };
 
-    likeHandler = (liked, city) => {
-        if (liked) {
-            this.setState({
-                favorites: [...this.state.favorites, city]
-            });
-        } else {
-            this.setState({
-                favorites: this.state.favorites.filter(
-                    favCity => favCity.id !== city.id
-                )
-            });
-        }
+    const favoritesHandler = clicked => {
+        clicked ?
+            setFavoritesIsClicked(true) :
+            setFavoritesIsClicked(false);
+    };
+
+    const likeHandler = (liked, city) => {
+        liked ?
+            setFavorites([...favorites, city]) :
+            setFavorites(favorites.filter(favCity => favCity.id !== city.id));
 
         city.isLiked = !city.isLiked;
     };
 
-    cityHandler = city => {
-        this.setState({
-            isModalOpened: true,
-            modalCity: city
-        });
+    const cityHandler = city => {
+        setIsModalOpened(true);
+        setModalCity(city);
     };
 
-    modalHandler = () => {
-        this.setState({
-            isModalOpened: false,
-            modalCity: {}
-        });
+    const modalHandler = () => {
+        setIsModalOpened(false);
+        setModalCity({});
     };
 
-    render() {
-        return (
-            <>
-                <Header
-                    onSearchCity={this.searchCityHandler}
-                    onFavoritesClick={this.favoritesHandler}
-                />
-                <Article
-                    page={this.state.page}
-                    total={this.state.total}
-                    cities={
-                        this.state.favoritesIsClicked
-                            ? this.state.favorites
-                            : this.state.cities
-                    }
-                    onLoadMoreClick={this.loadMoreHandler}
-                    onPaginationClick={this.paginationHandler}
-                    onLikeClick={this.likeHandler}
-                    onCityClick={this.cityHandler}
-                />
-                <Footer />
+    return (
+        <>
+            <Header
+                onSearchCity={searchCityHandler}
+                onFavoritesClick={favoritesHandler}
+            />
+            <Article
+                page={page}
+                total={total}
+                cities={favoritesIsClicked ? favorites : cities}
+                onLoadMoreClick={loadMoreHandler}
+                onPaginationClick={paginationHandler}
+                onLikeClick={likeHandler}
+                onCityClick={cityHandler}
+            />
+            <Footer />
 
-                {!!this.state.isModalOpened && (
-                    <Modal
-                        city={this.state.modalCity}
-                        onModalClick={this.modalHandler}
-                        onLikeClick={this.likeHandler}
-                    />
-                )}
-            </>
-        );
-    }
-}
+            {!!isModalOpened && (
+                <Modal
+                    city={modalCity}
+                    onModalClick={modalHandler}
+                    onLikeClick={likeHandler}
+                />
+            )}
+        </>
+    );
+};
 
 export default App;
