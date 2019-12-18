@@ -1,9 +1,9 @@
 import React from "react";
 
 import "./Article.css";
-import List from "../ListComponent/List";
-import LoadMore from "../LoadMoreComponent/LoadMore";
-import Pagination from "../PaginationComponent/Pagination";
+import List from "../List/List";
+import LoadMore from "../LoadMore/LoadMore";
+import Pagination from "../Pagination/Pagination";
 
 const Article = props => (
     <article>

@@ -1,15 +1,4 @@
-import {
-    SET_PLACE,
-    SET_PAGE,
-    SET_TOTAL,
-    SET_FLATS,
-    SET_FAVORITES,
-    SET_FAVORITES_IS_CLICKED,
-    SET_MODAL_IS_OPENED,
-    SET_MODAL_FLAT,
-    GET_RESULT,
-    LOAD_MORE
-} from "../actions/actionTypes";
+import { actionTypes } from "../actions/actionTypes";
 
 export const initialState = {
     place: "",
@@ -24,44 +13,56 @@ export const initialState = {
 
 export function rootReducer(state = initialState, action) {
     switch (action.type) {
-        case SET_PLACE:
+        case actionTypes.SET_PLACE:
             return { ...state, place: action.payload };
 
-        case SET_PAGE:
+        case actionTypes.SET_PAGE:
             return { ...state, page: action.payload };
 
-        case SET_TOTAL:
+        case actionTypes.SET_TOTAL:
             return { ...state, total: action.payload };
 
-        case SET_FLATS:
+        case actionTypes.SET_FLATS:
             return { ...state, flats: action.payload };
 
-        case SET_FAVORITES:
+        case actionTypes.SET_FAVORITES:
             return { ...state, favorites: action.payload };
 
-        case SET_FAVORITES_IS_CLICKED:
+        case actionTypes.SET_FAVORITES_IS_CLICKED:
             return { ...state, favoritesIsClicked: action.payload };
 
-        case SET_MODAL_IS_OPENED:
+        case actionTypes.SET_MODAL_IS_OPENED:
             return { ...state, modalIsOpened: action.payload };
 
-        case SET_MODAL_FLAT:
+        case actionTypes.SET_MODAL_FLAT:
             return { ...state, modalFlat: action.payload };
 
-        case GET_RESULT:
+        case actionTypes.GET_RESULT:
             return {
                 ...state,
                 flats: [...action.payload.result.response.listings],
                 total: action.payload.result.response.total_pages
             };
 
-        case LOAD_MORE:
+        case actionTypes.LOAD_MORE:
             return {
                 ...state,
                 flats: [
                     ...state.flats,
                     ...action.payload.result.response.listings
                 ]
+            };
+
+        case actionTypes.ADD_TO_FAVORITES:
+            return {
+                ...state,
+                favorites: [...state.favorites, action.payload]
+            };
+
+        case actionTypes.DELETE_FROM_FAVORITES:
+            return {
+                ...state,
+                favorites: state.favorites.filter(favoriteFlat => favoriteFlat.id !== action.payload.id)
             };
 
         default:

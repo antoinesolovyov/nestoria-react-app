@@ -2,10 +2,10 @@ import React, { useCallback } from "react";
 import { connect } from "react-redux";
 
 import "./App.css";
-import Header from "../components/HeaderComponent/Header";
-import Article from "../components/ArticleComponent/Article";
-import Footer from "../components/FooterComponent/Footer";
-import Modal from "../components/ModalComponent/Modal";
+import Header from "../components/Header/Header";
+import Article from "../components/Article/Article";
+import Footer from "../components/Footer/Footer";
+import Modal from "../components/Modal/Modal";
 import {
     setPlace,
     setPage,
@@ -15,7 +15,8 @@ import {
     setFavoritesIsClicked,
     setModalIsOpened,
     setModalFlat,
-    getResult
+    getResult,
+    likeClick
 } from "../actions/Actions.jsx";
 
 const App = props => {
@@ -38,23 +39,6 @@ const App = props => {
             } else {
                 props.setFavoritesIsClicked(false);
             }
-        },
-        [props]
-    );
-
-    const likeHandler = useCallback(
-        (liked, flat) => {
-            if (liked) {
-                props.setFavorites([...props.favorites, flat]);
-            } else {
-                props.setFavorites(
-                    props.favorites.filter(
-                        favoriteFlat => favoriteFlat.id !== flat.id
-                    )
-                );
-            }
-
-            flat.isLiked = !flat.isLiked;
         },
         [props]
     );
@@ -88,7 +72,7 @@ const App = props => {
                 flats={props.favoritesIsClicked ? props.favorites : props.flats}
                 onLoadMoreClick={loadMoreHandler}
                 onPaginationClick={paginationHandler}
-                onLikeClick={likeHandler}
+                onLikeClick={props.likeClick}
                 onFlatClick={flatHandler}
             />
             <Footer />
@@ -96,7 +80,7 @@ const App = props => {
                 <Modal
                     flat={props.modalFlat}
                     onModalClick={modalHandler}
-                    onLikeClick={likeHandler}
+                    onLikeClick={props.likeClick}
                 />
             )}
         </>
@@ -114,19 +98,17 @@ const mapStateToProps = store => ({
     modalFlat: store.modalFlat
 });
 
-const mapDispatchToProps = dispatch => ({
-    setPlace: place => dispatch(setPlace(place)),
-    setPage: page => dispatch(setPage(page)),
-    setTotal: total => dispatch(setTotal(total)),
-    setFlats: (prevFlats, nextFlats) =>
-        dispatch(setFlats(prevFlats, nextFlats)),
-    setFavorites: favorites => dispatch(setFavorites(favorites)),
-    setFavoritesIsClicked: favoritesIsClicked =>
-        dispatch(setFavoritesIsClicked(favoritesIsClicked)),
-    setModalIsOpened: modalIsOpened =>
-        dispatch(setModalIsOpened(modalIsOpened)),
-    setModalFlat: modalFlat => dispatch(setModalFlat(modalFlat)),
-    getResult: (place, page, isLoadMore) => dispatch(getResult(place, page, isLoadMore))
-});
+const mapDispatchToProps = {
+    setPlace,
+    setPage,
+    setTotal,
+    setFlats,
+    setFavorites,
+    setFavoritesIsClicked,
+    setModalIsOpened,
+    setModalFlat,
+    getResult,
+    likeClick
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

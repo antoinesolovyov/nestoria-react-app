@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 
 import "./Flat.css";
-import Like from "../LikeComponent/Like";
+import Like from "../Like/Like";
 
 const Flat = props => {
     const { img_url, title, summary, price_formatted } = props.flat;

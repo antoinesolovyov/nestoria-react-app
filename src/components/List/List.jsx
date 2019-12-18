@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 
 import "./List.css";
-import Flat from "../FlatComponent/Flat";
+import Flat from "../Flat/Flat";
 
 const List = props => {
     const getFlats = useCallback(

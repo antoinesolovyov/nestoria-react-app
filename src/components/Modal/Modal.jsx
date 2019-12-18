@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 
 import "./Modal.css";
-import Like from "../LikeComponent/Like";
+import Like from "../Like/Like";
 
 const Modal = props => {
     const {
