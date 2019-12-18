@@ -15,12 +15,17 @@ const Article = props => (
         />
 
         {!!props.flats.length && (
-            <LoadMore onLoadMoreClick={props.onLoadMoreClick} />
+            <LoadMore
+                page={props.page}
+                setPage={props.setPage}
+                onLoadMoreClick={props.onLoadMoreClick}
+            />
         )}
 
         {!!props.flats.length && (
             <Pagination
                 page={props.page}
+                setPage={props.setPage}
                 total={props.total}
                 onPaginationClick={props.onPaginationClick}
             />

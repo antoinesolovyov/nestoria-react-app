@@ -5,7 +5,8 @@ import "./Pagination.css";
 const Pagination = props => {
     const onClickHandler = useCallback(
         event => {
-            props.onPaginationClick(event.target.id);
+            props.setPage(+event.target.id);
+            props.onPaginationClick();
         },
         [props]
     );

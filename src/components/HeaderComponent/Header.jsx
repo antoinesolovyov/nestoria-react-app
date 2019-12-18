@@ -1,27 +1,25 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 
 import "./Header.css";
 import Favorites from "../FavoritesComponent/Favorites";
 
 const Header = props => {
-    const [place, setPlace] = useState("");
-
     const onSubmitHandler = useCallback(
         event => {
-            if (place) {
-                props.onSearchCity(place);
+            if (props.place) {
+                props.onSearchCity(props.place);
             }
 
             event.preventDefault();
         },
-        [props, place]
+        [props]
     );
 
     const onChangeHandler = useCallback(
         event => {
-            setPlace(event.target.value);
+            props.setPlace(event.target.value);
         },
-        [setPlace]
+        [props]
     );
 
     return (
@@ -31,12 +29,15 @@ const Header = props => {
                 <input
                     className="input__search"
                     type="text"
-                    value={place}
+                    value={props.place}
                     onChange={onChangeHandler}
                     placeholder="London"
                 />
             </form>
-            <Favorites onFavoritesClick={props.onFavoritesClick} />
+            <Favorites
+                favoritesIsClicked={props.favoritesIsClicked}
+                onFavoritesClick={props.onFavoritesClick}
+            />
         </header>
     );
 };
