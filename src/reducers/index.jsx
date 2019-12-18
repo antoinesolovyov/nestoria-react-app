@@ -62,7 +62,9 @@ export function rootReducer(state = initialState, action) {
         case actionTypes.DELETE_FROM_FAVORITES:
             return {
                 ...state,
-                favorites: state.favorites.filter(favoriteFlat => favoriteFlat.id !== action.payload.id)
+                favorites: state.favorites.filter(
+                    favoriteFlat => favoriteFlat.id !== action.payload.id
+                )
             };
 
         default:

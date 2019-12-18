@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import "./Modal.css";
 import Like from "../Like/Like";
 
-const Modal = props => {
+const Modal = ({ flat, onLikeClick, onModalClick }) => {
     const {
         img_url,
         title,
@@ -12,19 +12,19 @@ const Modal = props => {
         keywords,
         bathroom_number,
         bedroom_number
-    } = props.flat;
+    } = flat;
 
     const likeClickHandler = useCallback(
         isLikeClicked => {
-            props.onLikeClick(isLikeClicked, props.flat);
+            onLikeClick(isLikeClicked, flat);
         },
-        [props]
+        [flat, onLikeClick]
     );
 
     return (
         <div className="modal">
             <div className="modal__flat">
-                <div onClick={props.onModalClick}>
+                <div onClick={onModalClick}>
                     <div className="modal__description">
                         <p>{title}</p>
                         <p>{summary}</p>
@@ -37,7 +37,7 @@ const Modal = props => {
                         <img src={img_url} alt={title} />
                     </div>
                 </div>
-                <Like flat={props.flat} onLikeClick={likeClickHandler} />
+                <Like flat={flat} onLikeClick={likeClickHandler} />
             </div>
         </div>
     );

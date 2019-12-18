@@ -2,11 +2,11 @@ import React, { useCallback } from "react";
 
 import "./LoadMore.css";
 
-const LoadMore = props => {
+const LoadMore = ({ page, setPage, onLoadMoreClick }) => {
     const onClickHandler = useCallback(() => {
-        props.setPage(props.page + 1);
-        props.onLoadMoreClick();
-    }, [props]);
+        setPage(page + 1);
+        onLoadMoreClick();
+    }, [page, setPage, onLoadMoreClick]);
 
     return (
         <div>
