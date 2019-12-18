@@ -1,4 +1,17 @@
-export const SET_PLACE = "SET_PLACE";
+import uuid from "uuid";
+
+import {
+    SET_PLACE,
+    SET_PAGE,
+    SET_TOTAL,
+    SET_FLATS,
+    SET_FAVORITES,
+    SET_FAVORITES_IS_CLICKED,
+    SET_MODAL_IS_OPENED,
+    SET_MODAL_FLAT,
+    GET_RESULT,
+    LOAD_MORE
+} from "./actionTypes";
 
 export function setPlace(place) {
     return {
@@ -7,16 +20,12 @@ export function setPlace(place) {
     };
 }
 
-export const SET_PAGE = "SET_PAGE";
-
 export function setPage(page) {
     return {
         type: SET_PAGE,
         payload: page
     };
 }
-
-export const SET_TOTAL = "SET_TOTAL";
 
 export function setTotal(total) {
     return {
@@ -25,16 +34,12 @@ export function setTotal(total) {
     };
 }
 
-export const SET_FLATS = "SET_FLATS";
-
-export function setFlats(flats) {
+export function setFlats(prevFlats = [], nextFlats = []) {
     return {
         type: SET_FLATS,
-        payload: flats
+        payload: [...prevFlats, ...nextFlats]
     };
 }
-
-export const SET_FAVORITES = "SET_FAVORITES";
 
 export function setFavorites(favorites) {
     return {
@@ -43,16 +48,12 @@ export function setFavorites(favorites) {
     };
 }
 
-export const SET_FAVORITES_IS_CLICKED = "SET_FAVORITES_IS_CLICKED";
-
 export function setFavoritesIsClicked(favoritesIsClicked) {
     return {
         type: SET_FAVORITES_IS_CLICKED,
         payload: favoritesIsClicked
     };
 }
-
-export const SET_MODAL_IS_OPENED = "SET_MODAL_IS_OPENED";
 
 export function setModalIsOpened(modalIsOpened) {
     return {
@@ -61,11 +62,45 @@ export function setModalIsOpened(modalIsOpened) {
     };
 }
 
-export const SET_MODAL_FLAT = "SET_MODAL_FLAT";
-
 export function setModalFlat(modalFlat) {
     return {
         type: SET_MODAL_FLAT,
         payload: modalFlat
+    };
+}
+
+export function getResult(place, page, isLoadMore) {
+    return async dispatch => {
+        const url = `https://api.nestoria.co.uk/api?page=${page}&encoding=json&action=search_listings&place_name=${place}`;
+
+        const response = await fetch(url);
+        const result = await response.json();
+
+        result.response.listings.map(flat => {
+            flat.id = uuid.v1();
+            flat.isLiked = false;
+
+            return flat;
+        });
+
+        if (!isLoadMore) {
+            dispatch({
+                type: GET_RESULT,
+                payload: {
+                    result,
+                    place,
+                    page
+                }
+            });
+        } else {
+            dispatch({
+                type: LOAD_MORE,
+                payload: {
+                    result,
+                    place,
+                    page
+                }
+            });
+        }
     };
 }

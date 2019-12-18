@@ -1,0 +1,10 @@
+export const SET_PLACE = "SET_PLACE";
+export const SET_PAGE = "SET_PAGE";
+export const SET_TOTAL = "SET_TOTAL";
+export const SET_FLATS = "SET_FLATS";
+export const SET_FAVORITES = "SET_FAVORITES";
+export const SET_FAVORITES_IS_CLICKED = "SET_FAVORITES_IS_CLICKED";
+export const SET_MODAL_IS_OPENED = "SET_MODAL_IS_OPENED";
+export const SET_MODAL_FLAT = "SET_MODAL_FLAT";
+export const GET_RESULT = "GET_RESULT";
+export const LOAD_MORE = "LOAD_MORE";

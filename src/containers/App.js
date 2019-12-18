@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { connect } from "react-redux";
-import uuid from "uuid";
 
 import "./App.css";
 import Header from "../components/HeaderComponent/Header";
@@ -15,76 +14,63 @@ import {
     setFavorites,
     setFavoritesIsClicked,
     setModalIsOpened,
-    setModalFlat
+    setModalFlat,
+    getResult
 } from "../actions/Actions.jsx";
 
 const App = props => {
-    const request = async () => {
-        const url = `https://api.nestoria.co.uk/api?page=${props.page}&encoding=json&action=search_listings&place_name=${props.place}`;
-
-        const response = await fetch(url);
-        const result = await response.json();
-
-        result.response.listings.map(flat => {
-            flat.id = uuid.v1();
-            flat.isLiked = false;
-
-            return flat;
-        });
-
-        return result;
+    const searchCityHandler = () => {
+        props.getResult(props.place, props.page, false);
     };
 
-    const searchCityHandler = async () => {
-        const result = await request(props.place, 1);
-
-        props.setTotal(result.response.total_pages);
-        props.setFlats([...result.response.listings]);
+    const loadMoreHandler = () => {
+        props.getResult(props.place, props.page, true);
     };
 
-    const loadMoreHandler = async () => {
-        const result = await request();
-
-        props.setFlats([...props.flats, ...result.response.listings]);
+    const paginationHandler = () => {
+        props.getResult(props.place, props.page, false);
     };
 
-    const paginationHandler = async () => {
-        const result = await request();
+    const favoritesHandler = useCallback(
+        clicked => {
+            if (clicked) {
+                props.setFavoritesIsClicked(true);
+            } else {
+                props.setFavoritesIsClicked(false);
+            }
+        },
+        [props]
+    );
 
-        props.setFlats([...result.response.listings]);
-    };
+    const likeHandler = useCallback(
+        (liked, flat) => {
+            if (liked) {
+                props.setFavorites([...props.favorites, flat]);
+            } else {
+                props.setFavorites(
+                    props.favorites.filter(
+                        favoriteFlat => favoriteFlat.id !== flat.id
+                    )
+                );
+            }
 
-    const favoritesHandler = clicked => {
-        if (clicked) {
-            props.setFavoritesIsClicked(true);
-        } else {
-            props.setFavoritesIsClicked(false);
-        }
-    };
+            flat.isLiked = !flat.isLiked;
+        },
+        [props]
+    );
 
-    const likeHandler = (liked, flat) => {
-        if (liked) {
-            props.setFavorites([...props.favorites, flat]);
-        } else {
-            props.setFavorites(
-                props.favorites.filter(
-                    favoriteFlat => favoriteFlat.id !== flat.id
-                )
-            );
-        }
+    const flatHandler = useCallback(
+        flat => {
+            props.setModalIsOpened(true);
+            props.setModalFlat(flat);
+        },
+        [props]
+    );
 
-        flat.isLiked = !flat.isLiked;
-    };
-
-    const flatHandler = flat => {
-        props.setModalIsOpened(true);
-        props.setModalFlat(flat);
-    };
-
-    const modalHandler = () => {
+    const modalHandler = useCallback(() => {
         props.setModalIsOpened(false);
         props.setModalFlat({});
-    };
+    }, [props]);
 
     return (
         <>
@@ -105,7 +91,7 @@ const App = props => {
                 onLikeClick={likeHandler}
                 onFlatClick={flatHandler}
             />
-            <Footer />ß
+            <Footer />
             {!!props.modalIsOpened && (
                 <Modal
                     flat={props.modalFlat}
@@ -132,13 +118,15 @@ const mapDispatchToProps = dispatch => ({
     setPlace: place => dispatch(setPlace(place)),
     setPage: page => dispatch(setPage(page)),
     setTotal: total => dispatch(setTotal(total)),
-    setFlats: flats => dispatch(setFlats(flats)),
+    setFlats: (prevFlats, nextFlats) =>
+        dispatch(setFlats(prevFlats, nextFlats)),
     setFavorites: favorites => dispatch(setFavorites(favorites)),
     setFavoritesIsClicked: favoritesIsClicked =>
         dispatch(setFavoritesIsClicked(favoritesIsClicked)),
     setModalIsOpened: modalIsOpened =>
         dispatch(setModalIsOpened(modalIsOpened)),
-    setModalFlat: modalFlat => dispatch(setModalFlat(modalFlat))
+    setModalFlat: modalFlat => dispatch(setModalFlat(modalFlat)),
+    getResult: (place, page, isLoadMore) => dispatch(getResult(place, page, isLoadMore))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

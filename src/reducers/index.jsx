@@ -6,8 +6,10 @@ import {
     SET_FAVORITES,
     SET_FAVORITES_IS_CLICKED,
     SET_MODAL_IS_OPENED,
-    SET_MODAL_FLAT
-} from "../actions/Actions";
+    SET_MODAL_FLAT,
+    GET_RESULT,
+    LOAD_MORE
+} from "../actions/actionTypes";
 
 export const initialState = {
     place: "",
@@ -45,6 +47,22 @@ export function rootReducer(state = initialState, action) {
 
         case SET_MODAL_FLAT:
             return { ...state, modalFlat: action.payload };
+
+        case GET_RESULT:
+            return {
+                ...state,
+                flats: [...action.payload.result.response.listings],
+                total: action.payload.result.response.total_pages
+            };
+
+        case LOAD_MORE:
+            return {
+                ...state,
+                flats: [
+                    ...state.flats,
+                    ...action.payload.result.response.listings
+                ]
+            };
 
         default:
             return state;
