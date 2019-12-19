@@ -2,12 +2,13 @@ import React, { useCallback } from "react";
 
 import "./Pagination.css";
 
-const Pagination = props => {
+const Pagination = ({ page, setPage, total, onPaginationClick }) => {
     const onClickHandler = useCallback(
         event => {
-            props.onPaginationClick(event.target.id);
+            setPage(+event.target.id);
+            onPaginationClick();
         },
-        [props]
+        [setPage, onPaginationClick]
     );
 
     const getPages = useCallback(
@@ -19,7 +20,7 @@ const Pagination = props => {
                     <li
                         key={i}
                         id={i}
-                        className={+props.page === i ? "red" : "white"}
+                        className={+page === i ? "red" : "white"}
                         onClick={onClickHandler}
                     >
                         {i}
@@ -29,10 +30,8 @@ const Pagination = props => {
 
             return list;
         },
-        [props, onClickHandler]
+        [page, onClickHandler]
     );
-
-    const { page, total } = props;
 
     if (total < 5) {
         return <ul>{getPages(1, total)}</ul>;

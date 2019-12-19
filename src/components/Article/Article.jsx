@@ -1,9 +1,9 @@
 import React from "react";
 
 import "./Article.css";
-import List from "../ListComponent/List";
-import LoadMore from "../LoadMoreComponent/LoadMore";
-import Pagination from "../PaginationComponent/Pagination";
+import List from "../List/List";
+import LoadMore from "../LoadMore/LoadMore";
+import Pagination from "../Pagination/Pagination";
 
 const Article = props => (
     <article>
@@ -15,12 +15,17 @@ const Article = props => (
         />
 
         {!!props.flats.length && (
-            <LoadMore onLoadMoreClick={props.onLoadMoreClick} />
+            <LoadMore
+                page={props.page}
+                setPage={props.setPage}
+                onLoadMoreClick={props.onLoadMoreClick}
+            />
         )}
 
         {!!props.flats.length && (
             <Pagination
                 page={props.page}
+                setPage={props.setPage}
                 total={props.total}
                 onPaginationClick={props.onPaginationClick}
             />

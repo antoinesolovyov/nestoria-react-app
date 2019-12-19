@@ -1,20 +1,24 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 
 import "./Header.css";
-import Favorites from "../FavoritesComponent/Favorites";
+import Favorites from "../Favorites/Favorites";
 
-const Header = props => {
-    const [place, setPlace] = useState("");
-
+const Header = ({
+    place,
+    onSearchCity,
+    setPlace,
+    favoritesIsClicked,
+    onFavoritesClick
+}) => {
     const onSubmitHandler = useCallback(
         event => {
             if (place) {
-                props.onSearchCity(place);
+                onSearchCity(place);
             }
 
             event.preventDefault();
         },
-        [props, place]
+        [place, onSearchCity]
     );
 
     const onChangeHandler = useCallback(
@@ -36,7 +40,10 @@ const Header = props => {
                     placeholder="London"
                 />
             </form>
-            <Favorites onFavoritesClick={props.onFavoritesClick} />
+            <Favorites
+                favoritesIsClicked={favoritesIsClicked}
+                onFavoritesClick={onFavoritesClick}
+            />
         </header>
     );
 };

@@ -1,21 +1,21 @@
 import React, { useCallback } from "react";
 
 import "./List.css";
-import Flat from "../FlatComponent/Flat";
+import Flat from "../Flat/Flat";
 
-const List = props => {
+const List = ({ flats, onFlatClick, onLikeClick }) => {
     const getFlats = useCallback(
         () =>
-            props.flats.map(flat => (
+            flats.map(flat => (
                 <li key={flat.id}>
                     <Flat
                         flat={flat}
-                        onFlatClick={props.onFlatClick}
-                        onLikeClick={props.onLikeClick}
+                        onFlatClick={onFlatClick}
+                        onLikeClick={onLikeClick}
                     />
                 </li>
             )),
-        [props]
+        [flats, onFlatClick, onLikeClick]
     );
 
     return <ul>{getFlats()}</ul>;

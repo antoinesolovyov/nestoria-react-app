@@ -1,21 +1,21 @@
 import React, { useCallback } from "react";
 
 import "./Flat.css";
-import Like from "../LikeComponent/Like";
+import Like from "../Like/Like";
 
-const Flat = props => {
-    const { img_url, title, summary, price_formatted } = props.flat;
+const Flat = ({ flat, onLikeClick, onFlatClick }) => {
+    const { img_url, title, summary, price_formatted } = flat;
 
     const likeClickHandler = useCallback(
         isLikeClicked => {
-            props.onLikeClick(isLikeClicked, props.flat);
+            onLikeClick(isLikeClicked, flat);
         },
-        [props]
+        [flat, onLikeClick]
     );
 
     return (
         <div className="flat">
-            <div onClick={() => props.onFlatClick(props.flat)}>
+            <div onClick={() => onFlatClick(flat)}>
                 <div className="flat__image">
                     <img src={img_url} alt={title} />
                 </div>
@@ -25,7 +25,7 @@ const Flat = props => {
                     <p>{price_formatted}</p>
                 </div>
             </div>
-            <Like flat={props.flat} onLikeClick={likeClickHandler} />
+            <Like flat={flat} onLikeClick={likeClickHandler} />
         </div>
     );
 };

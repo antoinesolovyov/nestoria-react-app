@@ -1,14 +1,12 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 
 import "./LoadMore.css";
 
-const LoadMore = props => {
-    const [page, setPage] = useState(0);
-
+const LoadMore = ({ page, setPage, onLoadMoreClick }) => {
     const onClickHandler = useCallback(() => {
-        props.onLoadMoreClick(page + 1);
         setPage(page + 1);
-    }, [props, page, setPage]);
+        onLoadMoreClick();
+    }, [page, setPage, onLoadMoreClick]);
 
     return (
         <div>
