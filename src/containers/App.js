@@ -17,70 +17,86 @@ import {
     setModalFlat,
     getResult,
     likeClick
-} from "../actions/Actions.jsx";
+} from "../actions/actions.jsx";
 
-const App = props => {
-    const searchCityHandler = () => {
-        props.getResult(props.place, props.page, false);
-    };
+const App = ({
+    place,
+    setPlace,
+    page,
+    setPage,
+    total,
+    flats,
+    favorites,
+    getResult,
+    likeClick,
+    modalIsOpened,
+    setModalIsOpened,
+    favoritesIsClicked,
+    setFavoritesIsClicked,
+    modalFlat,
+    setModalFlat
+}) => {
+    const searchCityHandler = useCallback(() => {
+        getResult(place, page, false);
+    }, [place, page, getResult]);
 
-    const loadMoreHandler = () => {
-        props.getResult(props.place, props.page, true);
-    };
+    const loadMoreHandler = useCallback(() => {
+        getResult(place, page, true);
+    }, [place, page, getResult]);
 
-    const paginationHandler = () => {
-        props.getResult(props.place, props.page, false);
-    };
+    const paginationHandler = useCallback(() => {
+        getResult(place, page, false);
+    }, [place, page, getResult]);
 
     const favoritesHandler = useCallback(
         clicked => {
             if (clicked) {
-                props.setFavoritesIsClicked(true);
+                setFavoritesIsClicked(true);
             } else {
-                props.setFavoritesIsClicked(false);
+                setFavoritesIsClicked(false);
             }
         },
-        [props]
+        [setFavoritesIsClicked]
     );
 
     const flatHandler = useCallback(
         flat => {
-            props.setModalIsOpened(true);
-            props.setModalFlat(flat);
+            setModalIsOpened(true);
+            setModalFlat(flat);
         },
-        [props]
+        [setModalIsOpened, setModalFlat]
     );
 
     const modalHandler = useCallback(() => {
-        props.setModalIsOpened(false);
-        props.setModalFlat({});
-    }, [props]);
+        setModalIsOpened(false);
+        setModalFlat({});
+    }, [setModalIsOpened, setModalFlat]);
 
     return (
         <>
             <Header
-                place={props.place}
-                setPlace={props.setPlace}
-                favoritesIsClicked={props.favoritesIsClicked}
+                place={place}
+                setPlace={setPlace}
+                favoritesIsClicked={favoritesIsClicked}
                 onSearchCity={searchCityHandler}
                 onFavoritesClick={favoritesHandler}
             />
             <Article
-                page={props.page}
-                setPage={props.setPage}
-                total={props.total}
-                flats={props.favoritesIsClicked ? props.favorites : props.flats}
+                page={page}
+                setPage={setPage}
+                total={total}
+                flats={favoritesIsClicked ? favorites : flats}
                 onLoadMoreClick={loadMoreHandler}
                 onPaginationClick={paginationHandler}
-                onLikeClick={props.likeClick}
+                onLikeClick={likeClick}
                 onFlatClick={flatHandler}
             />
             <Footer />
-            {!!props.modalIsOpened && (
+            {!!modalIsOpened && (
                 <Modal
-                    flat={props.modalFlat}
+                    flat={modalFlat}
                     onModalClick={modalHandler}
-                    onLikeClick={props.likeClick}
+                    onLikeClick={likeClick}
                 />
             )}
         </>
