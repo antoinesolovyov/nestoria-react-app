@@ -17,7 +17,7 @@ import {
     setModalFlat,
     getResult,
     likeClick
-} from "../actions/actions.jsx";
+} from "../actions/actions.js";
 
 const App = ({
     place,
