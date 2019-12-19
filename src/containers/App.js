@@ -87,15 +87,15 @@ const App = props => {
     );
 };
 
-const mapStateToProps = store => ({
-    place: store.place,
-    flats: store.flats,
-    page: store.page,
-    total: store.total,
-    favorites: store.favorites,
-    favoritesIsClicked: store.favoritesIsClicked,
-    modalIsOpened: store.modalIsOpened,
-    modalFlat: store.modalFlat
+const mapStateToProps = ({ flats, favorites, modal }) => ({
+    place: flats.place,
+    flats: flats.flats,
+    page: flats.page,
+    total: flats.total,
+    favorites: favorites.favorites,
+    favoritesIsClicked: favorites.favoritesIsClicked,
+    modalIsOpened: modal.modalIsOpened,
+    modalFlat: modal.modalFlat
 });
 
 const mapDispatchToProps = {
